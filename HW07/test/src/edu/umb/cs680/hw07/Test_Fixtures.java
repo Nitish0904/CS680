@@ -1,11 +1,18 @@
-package edu.umb.cs680.hw07;
+package edu.umb.cs680.hw08.fs.util;
 
-import java.lang.annotation.Target;
+import edu.umb.cs680.hw08.fs.Directory;
+import edu.umb.cs680.hw08.fs.File;
+import edu.umb.cs680.hw08.fs.FileSystem;
+import edu.umb.cs680.hw08.fs.Link;
+import org.junit.jupiter.api.BeforeAll;
+
 import java.time.LocalDateTime;
 
 public class Test_Fixtures {
+
+
     public static FileSystem nfs(){
-        FileSystem flstm = FileSystem.getFileSystem();
+
 
         Directory root = new Directory(null, "prjroot", 0, LocalDateTime.now());
         Directory src = new Directory(root, "src", 0, LocalDateTime.of(2021,9,9,10,25));
@@ -18,12 +25,11 @@ public class Test_Fixtures {
         File b = new File(src, "b", 45, LocalDateTime.now());
         File c = new File(lib, "c", 50, LocalDateTime.now());
 
-        Directory src_2 = new Directory(test, "src_2", 0, LocalDateTime.now());
+        Directory src_2 = new Directory(test, "src", 0, LocalDateTime.now());
         Link y = new Link(root, "y", 0, LocalDateTime.now(), src_2);
 
         File d = new File(src_2, "d", 60, LocalDateTime.now());
 
-        flstm.appendRootDir(root);
         root.appendChild(src);
         root.appendChild(lib);
         root.appendChild(test);
@@ -34,6 +40,11 @@ public class Test_Fixtures {
         lib.appendChild(c);
         test.appendChild(src_2);
         src_2.appendChild(d);
+
+        FileSystem flstm = FileSystem.getFileSystem();
+
+        flstm.appendRootDir(root);
+
 
         return flstm;
     }
